@@ -364,7 +364,24 @@ def log_activity(request: ActivityRequest):
         return {"status": "success"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
+import os
 
+# Frontend ke build folder ka rasta
+frontend_dist = os.path.join(os.getcwd(), "login", "dist")
+
+# Agar dist folder exist karta hai tabhi mount karein
+if os.path.exists(frontend_dist):
+    app.mount("/assets", StaticFiles(directory=os.path.join(frontend_dist, "assets")), name="assets")
+
+    @app.get("/{full_path:path}")
+    async def serve_react(full_path: str):
+        # API requests ko chhod kar baaki sab React ko bhejein
+        file_path = os.path.join(frontend_dist, full_path)
+        if os.path.exists(file_path) and os.path.isfile(file_path):
+            return FileResponse(file_path)
+        return FileResponse(os.path.join(frontend_dist, "index.html"))
 # ========================================
 # 9. RUN SERVER
 # ========================================
