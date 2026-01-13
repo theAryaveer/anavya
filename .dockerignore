@@ -1,0 +1,14 @@
+# Ignore local binaries and massive data for build
+db_book/*.o
+db_book/*.exe
+db_book/*.db
+db_book/*.bin
+__pycache__/
+.venv/
+venv/
+.git/
+**/venv/
+**/.venv/
+**/__pycache__/
+**/.ipynb_checkpoints/
+**/node_modules/
