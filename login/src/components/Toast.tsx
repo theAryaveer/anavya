@@ -24,22 +24,27 @@ export const Toast = ({ message, type, onClose, duration = 4000 }: ToastProps) =
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -100, opacity: 0 }}
             transition={{ type: 'spring', stiffness: 500, damping: 30 }}
-            className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 min-w-[320px] max-w-md ${type === 'error'
-                ? 'bg-red-500/15 border-red-500/40 text-red-100'
-                : 'bg-emerald-500/15 border-emerald-500/40 text-emerald-100'
-                } backdrop-blur-xl border rounded-xl p-4 shadow-2xl flex items-center gap-3`}
+            className="fixed top-4 left-1/2 -translate-x-1/2 z-50 min-w-[320px] max-w-md backdrop-blur-xl border rounded-xl p-4 shadow-2xl flex items-center gap-3"
+            style={{
+                background: type === 'error' ? 'rgba(229,9,20,0.15)' : 'rgba(16,185,129,0.15)',
+                borderColor: type === 'error' ? 'rgba(229,9,20,0.4)' : 'rgba(16,185,129,0.4)',
+                color: 'white'
+            }}
         >
             {type === 'error' ? (
-                <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0" />
+                <AlertCircle className="w-5 h-5 flex-shrink-0" style={{ color: '#E50914' }} />
             ) : (
-                <CheckCircle className="w-5 h-5 text-emerald-400 flex-shrink-0" />
+                <CheckCircle className="w-5 h-5 flex-shrink-0" style={{ color: '#10B981' }} />
             )}
-            <p className="flex-1 font-medium">{message}</p>
+            <p className="flex-1 font-bold">{message}</p>
             <button
                 onClick={onClose}
-                className="p-1 rounded-lg hover:bg-white/10 transition-colors duration-200"
+                className="p-1 rounded-lg transition-colors duration-200"
+                style={{ color: 'rgba(255,255,255,0.5)' }}
+                onMouseEnter={e => (e.currentTarget.style.color = '#fff')}
+                onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.5)')}
             >
-                <X className="w-4 h-4" />
+                <X className="w-5 h-5" />
             </button>
         </motion.div>
     );

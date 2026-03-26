@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Check, Loader2 } from 'lucide-react';
 import type { Genre } from '../types';
@@ -10,45 +9,45 @@ interface GenreGridProps {
     loading?: boolean;
 }
 
-// Genre color gradients (Spotify-style)
+// Curated Netflix-style moody gradients for genres
 const genreColors: { [key: string]: string } = {
-    Fiction: 'from-purple-600 to-purple-800',
-    'Non-Fiction': 'from-blue-600 to-blue-800',
-    Fantasy: 'from-pink-600 to-purple-700',
-    'Science Fiction': 'from-cyan-600 to-blue-700',
-    Mystery: 'from-slate-700 to-slate-900',
-    Thriller: 'from-red-700 to-red-900',
-    Romance: 'from-rose-500 to-pink-700',
-    Horror: 'from-gray-800 to-black',
-    Biography: 'from-amber-600 to-orange-700',
-    History: 'from-yellow-700 to-amber-800',
-    'Self-Help': 'from-emerald-600 to-green-700',
-    Poetry: 'from-indigo-500 to-purple-600',
-    'Young Adult': 'from-teal-600 to-cyan-700',
-    Children: 'from-yellow-500 to-orange-600',
-    Comics: 'from-red-500 to-pink-600',
-    Philosophy: 'from-violet-700 to-purple-800',
-    Religion: 'from-blue-700 to-indigo-800',
-    Travel: 'from-green-600 to-teal-700',
-    Cooking: 'from-orange-600 to-red-600',
-    Art: 'from-fuchsia-600 to-pink-700',
+    Fiction: 'linear-gradient(135deg, #2A0845, #6441A5)',
+    'Non-Fiction': 'linear-gradient(135deg, #141E30, #243B55)',
+    Fantasy: 'linear-gradient(135deg, #4B1248, #F0C27B)',
+    'Science Fiction': 'linear-gradient(135deg, #0f0c29, #302b63, #24243e)',
+    Mystery: 'linear-gradient(135deg, #000000, #434343)',
+    Thriller: 'linear-gradient(135deg, #3a1c71, #d76d77, #ffaf7b)',
+    Romance: 'linear-gradient(135deg, #ff9a9e, #fecfef)',
+    Horror: 'linear-gradient(135deg, #000000, #53346D)',
+    Biography: 'linear-gradient(135deg, #e65c00, #F9D423)',
+    History: 'linear-gradient(135deg, #603813, #b29f94)',
+    'Self-Help': 'linear-gradient(135deg, #11998e, #38ef7d)',
+    Poetry: 'linear-gradient(135deg, #4facfe, #00f2fe)',
+    'Young Adult': 'linear-gradient(135deg, #43e97b, #38f9d7)',
+    Children: 'linear-gradient(135deg, #fceabb, #f8b500)',
+    Comics: 'linear-gradient(135deg, #ff0844, #ffb199)',
+    Philosophy: 'linear-gradient(135deg, #b224ef, #7579ff)',
+    Religion: 'linear-gradient(135deg, #283c86, #45a247)',
+    Travel: 'linear-gradient(135deg, #02aab0, #00cdac)',
+    Cooking: 'linear-gradient(135deg, #ff512f, #dd2476)',
+    Art: 'linear-gradient(135deg, #ec008c, #fc6767)',
 };
 
 export const GenreGrid = ({ genres, selectedGenreId, onSelectGenre, loading }: GenreGridProps) => {
     if (loading) {
         return (
             <div className="flex flex-col items-center justify-center py-12">
-                <Loader2 className="w-8 h-8 text-indigo-500 animate-spin mb-3" />
-                <p className="text-slate-400">Loading genres...</p>
+                <Loader2 className="w-8 h-8 animate-spin mb-3" style={{ color: '#E50914' }} />
+                <p style={{ color: 'rgba(255,255,255,0.4)' }}>Loading genres…</p>
             </div>
         );
     }
 
     return (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
             {genres.map((genre, index) => {
                 const isSelected = selectedGenreId === genre.id;
-                const gradientClass = genreColors[genre.name] || 'from-gray-600 to-gray-800';
+                const background = genreColors[genre.name] || 'linear-gradient(135deg, #1F1F1F, #0A0A0A)';
 
                 return (
                     <motion.button
@@ -60,14 +59,19 @@ export const GenreGrid = ({ genres, selectedGenreId, onSelectGenre, loading }: G
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         onClick={() => onSelectGenre(genre.id)}
-                        className={`relative h-28 rounded-xl bg-gradient-to-br ${gradientClass} overflow-hidden transition-all duration-200 ${isSelected
-                            ? 'ring-2 ring-indigo-400 shadow-lg shadow-indigo-500/30'
-                            : 'hover:shadow-lg'
-                            }`}
+                        className="relative h-28 rounded-xl overflow-hidden transition-all duration-200"
+                        style={{
+                            background,
+                            boxShadow: isSelected ? '0 0 0 3px #E50914, 0 8px 32px rgba(229,9,20,0.4)' : '0 4px 16px rgba(0,0,0,0.5)',
+                            transform: isSelected ? 'scale(1.02)' : 'scale(1)',
+                        }}
                     >
+                        {/* Film grain / darkening overlay */}
+                        <div className="absolute inset-0" style={{ background: 'rgba(0,0,0,0.3)' }} />
+
                         {/* Genre Name */}
                         <div className="absolute inset-0 flex flex-col items-center justify-center p-4">
-                            <span className="text-white font-bold text-base sm:text-lg text-center leading-tight">
+                            <span className="text-white font-bold text-base sm:text-lg text-center leading-tight drop-shadow-lg">
                                 {genre.name}
                             </span>
                         </div>
@@ -77,14 +81,19 @@ export const GenreGrid = ({ genres, selectedGenreId, onSelectGenre, loading }: G
                             <motion.div
                                 initial={{ scale: 0 }}
                                 animate={{ scale: 1 }}
-                                className="absolute top-2 right-2 w-6 h-6 bg-white rounded-full flex items-center justify-center shadow-lg"
+                                className="absolute top-2 right-2 w-6 h-6 rounded-full flex items-center justify-center shadow-lg"
+                                style={{ background: '#E50914' }}
                             >
-                                <Check size={16} className="text-indigo-600" />
+                                <Check size={14} className="text-white" strokeWidth={3} />
                             </motion.div>
                         )}
 
                         {/* Hover Overlay */}
-                        <div className="absolute inset-0 bg-white/0 hover:bg-white/10 transition-colors duration-200" />
+                        <div className="absolute inset-0 transition-colors duration-200"
+                             style={{ background: 'transparent' }}
+                             onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.1)')}
+                             onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+                        />
                     </motion.button>
                 );
             })}

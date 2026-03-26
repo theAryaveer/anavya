@@ -63,32 +63,39 @@ export const LoginPage = () => {
             {/* Toast */}
             {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
 
-            {/* Left Side - Branding */}
-            <div className="hidden lg:flex relative bg-gradient-to-br from-indigo-950 via-slate-900 to-midnight flex-col justify-center items-center p-12 overflow-hidden">
-                {/* Animated orbs */}
+            {/* Left Side - Animated Background */}
+            <div className="hidden lg:flex relative flex-col justify-center items-center p-12 overflow-hidden"
+                 style={{ background: 'linear-gradient(135deg,#0A0A0A 0%,#141414 100%)' }}>
+                {/* Animated red orbs */}
                 <motion.div
-                    animate={{ scale: [1, 1.15, 1], opacity: [0.2, 0.4, 0.2] }}
+                    animate={{ scale: [1, 1.2, 1], opacity: [0.15, 0.35, 0.15] }}
                     transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-                    className="absolute top-1/4 left-1/4 w-96 h-96 bg-indigo-500/25 rounded-full blur-[128px]"
+                    className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full blur-[128px]"
+                    style={{ background: 'rgba(229,9,20,0.3)' }}
                 />
                 <motion.div
-                    animate={{ scale: [1, 1.2, 1], opacity: [0.15, 0.3, 0.15] }}
-                    transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-                    className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-emerald-500/15 rounded-full blur-[128px]"
+                    animate={{ scale: [1, 1.15, 1], opacity: [0.08, 0.2, 0.08] }}
+                    transition={{ duration: 11, repeat: Infinity, ease: 'easeInOut', delay: 1.5 }}
+                    className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full blur-[128px]"
+                    style={{ background: 'rgba(232,184,75,0.25)' }}
                 />
 
                 {/* Content */}
                 <div className="relative z-10 max-w-lg">
                     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
-                        <Sparkles className="w-12 h-12 text-indigo-400 mb-6" />
-                        <h1 className="text-6xl font-bold text-slate-50 mb-6 leading-tight">
-                            Welcome
-                            <br />
-                            Back to
-                            <br />
-                            <span className="text-indigo-400">Anvaya.</span>
+                        <div className="flex items-center gap-3 mb-8">
+                            <div className="p-2.5 rounded-xl" style={{ background: 'linear-gradient(135deg,#E50914,#c1070f)', boxShadow: '0 0 24px rgba(229,9,20,0.5)' }}>
+                                <Sparkles className="w-6 h-6 text-white" />
+                            </div>
+                            <span className="text-xl font-black tracking-tight" style={{ color: '#E50914' }}>ANAVYA</span>
+                        </div>
+                        <h1 className="text-6xl font-black text-white mb-6 leading-tight" style={{ letterSpacing: '-2px' }}>
+                            Welcome<br />
+                            Back to<br />
+                            <span style={{ color: '#E50914' }}>Anavya.</span>
                         </h1>
-                        <p className="text-xl text-slate-400">
+                        <div className="h-1 w-16 rounded-full mb-6" style={{ background: 'linear-gradient(90deg,#E50914,transparent)' }} />
+                        <p className="text-lg" style={{ color: 'rgba(255,255,255,0.4)' }}>
                             Continue your journey of discovering amazing books tailored just for you.
                         </p>
                     </motion.div>
@@ -96,12 +103,12 @@ export const LoginPage = () => {
             </div>
 
             {/* Right Side - Login Form */}
-            <div className="bg-midnight flex items-center justify-center p-6 lg:p-12">
+            <div className="flex items-center justify-center p-6 lg:p-12" style={{ background: '#0A0A0A' }}>
                 <div className="w-full max-w-md">
                     {/* Header */}
-                    <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
-                        <h2 className="text-5xl font-bold text-slate-50 mb-2">Sign In</h2>
-                        <p className="text-slate-500">Enter your credentials to access your account</p>
+                    <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="mb-10">
+                        <h2 className="text-5xl font-black text-white mb-2" style={{ letterSpacing: '-1.5px' }}>Sign In</h2>
+                        <p style={{ color: 'rgba(255,255,255,0.35)' }}>Enter your credentials to access your account</p>
                     </motion.div>
 
                     {/* Form */}
@@ -112,15 +119,15 @@ export const LoginPage = () => {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.1 }}
                         >
-                            <label className="block text-sm font-medium text-slate-400 mb-2">Email Address</label>
+                            <label className="block text-sm font-medium mb-2" style={{ color: 'rgba(255,255,255,0.5)' }}>Email Address</label>
                             <div className="relative">
-                                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-indigo-400" />
+                                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 pointer-events-none" style={{ color: 'rgba(255,255,255,0.3)' }} />
                                 <input
                                     type="email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     placeholder="you@example.com"
-                                    className="w-full bg-midnight-100/80 border border-slate-700/50 rounded-xl pl-12 pr-4 py-4 text-slate-50 placeholder-slate-500 focus:outline-none focus:border-indigo-500/60 focus:ring-1 focus:ring-indigo-500/30 transition-all duration-200"
+                                    className="nx-input pl-12"
                                     required
                                 />
                             </div>
@@ -132,7 +139,8 @@ export const LoginPage = () => {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.2 }}
                         >
-                            <PasswordInput value={password} onChange={setPassword} label="Password" placeholder="Enter your password" />
+                            <label className="block text-sm font-medium mb-2" style={{ color: 'rgba(255,255,255,0.5)' }}>Password</label>
+                            <PasswordInput value={password} onChange={setPassword} label="" placeholder="Enter your password" />
                         </motion.div>
 
                         {/* Forgot Password Link */}
@@ -140,7 +148,10 @@ export const LoginPage = () => {
                             <button
                                 type="button"
                                 onClick={() => navigate('/forgot-password')}
-                                className="text-sm text-indigo-400 hover:text-indigo-300 transition-colors"
+                                className="text-sm font-medium transition-colors"
+                                style={{ color: '#E50914' }}
+                                onMouseEnter={e => (e.currentTarget.style.color = '#fff')}
+                                onMouseLeave={e => (e.currentTarget.style.color = '#E50914')}
                             >
                                 Forgot password?
                             </button>
@@ -154,10 +165,10 @@ export const LoginPage = () => {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.3 }}
-                            className="w-full bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 text-white font-semibold py-4 rounded-xl shadow-lg shadow-indigo-500/25 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2 uppercase tracking-wide text-sm hover:shadow-indigo-500/40"
+                            className="nx-btn-primary flex justify-center items-center mt-6"
                         >
                             {loading ? (
-                                <Loader2 className="w-6 h-6 animate-spin" />
+                                <Loader2 className="w-5 h-5 animate-spin" />
                             ) : (
                                 'Sign In'
                             )}
@@ -169,12 +180,16 @@ export const LoginPage = () => {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.4 }}
-                        className="mt-8 text-center text-slate-500 text-sm"
+                        className="mt-8 text-center text-sm"
+                        style={{ color: 'rgba(255,255,255,0.4)' }}
                     >
                         Don't have an account?{' '}
                         <button
                             onClick={() => navigate('/signup')}
-                            className="text-indigo-400 hover:text-indigo-300 font-medium transition-colors"
+                            className="font-bold transition-colors ml-1"
+                            style={{ color: '#E50914' }}
+                            onMouseEnter={e => (e.currentTarget.style.color = '#fff')}
+                            onMouseLeave={e => (e.currentTarget.style.color = '#E50914')}
                         >
                             Sign Up
                         </button>

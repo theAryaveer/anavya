@@ -12,18 +12,21 @@ export const LoadingShimmer = ({ count = 5 }: LoadingShimmerProps) => {
                     key={index}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ delay: index * 0.1 }}
-                    className="relative overflow-hidden bg-midnight-100/60 backdrop-blur-sm border border-slate-700/30 rounded-xl p-6 h-48"
+                    transition={{ delay: index * 0.07 }}
+                    className="relative overflow-hidden rounded-2xl"
+                    style={{ background: '#141414', border: '1px solid rgba(255,255,255,0.06)', height: '22rem' }}
                 >
-                    {/* Shimmer effect */}
-                    <div className="absolute inset-0 -translate-x-full animate-shimmer bg-gradient-to-r from-transparent via-slate-700/20 to-transparent" />
-
-                    {/* Content skeleton */}
-                    <div className="space-y-4">
-                        <div className="h-6 bg-slate-700/40 rounded w-3/4" />
-                        <div className="h-4 bg-slate-700/40 rounded w-1/2" />
-                        <div className="h-4 bg-slate-700/40 rounded w-2/3" />
-                        <div className="mt-6 h-8 bg-slate-700/40 rounded w-20" />
+                    {/* Shimmer sweep */}
+                    <div className="absolute inset-0 -translate-x-full animate-shimmer"
+                         style={{ background: 'linear-gradient(90deg, transparent, rgba(229,9,20,0.04), transparent)' }} />
+                    {/* Cover area */}
+                    <div className="h-52 w-full" style={{ background: 'rgba(255,255,255,0.04)' }} />
+                    {/* Text skeletons */}
+                    <div className="p-5 space-y-3">
+                        <div className="h-3 w-8 rounded-full" style={{ background: 'rgba(229,9,20,0.3)' }} />
+                        <div className="h-4 w-3/4 rounded-lg" style={{ background: 'rgba(255,255,255,0.06)' }} />
+                        <div className="h-3 w-1/2 rounded-lg" style={{ background: 'rgba(255,255,255,0.04)' }} />
+                        <div className="h-9 w-full rounded-xl mt-3" style={{ background: 'rgba(229,9,20,0.12)' }} />
                     </div>
                 </motion.div>
             ))}
@@ -31,16 +34,14 @@ export const LoadingShimmer = ({ count = 5 }: LoadingShimmerProps) => {
     );
 };
 
-// Simple text loader for inline loading states
-export const TextLoader = () => {
-    return (
-        <div className="flex items-center justify-center gap-2 py-8">
-            <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-                className="w-6 h-6 border-2 border-indigo-500/30 border-t-indigo-500 rounded-full"
-            />
-            <span className="text-slate-500 text-sm">Loading...</span>
-        </div>
-    );
-};
+export const TextLoader = () => (
+    <div className="flex items-center justify-center gap-2 py-8">
+        <motion.div
+            animate={{ rotate: 360 }}
+            transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+            className="w-5 h-5 rounded-full border-2"
+            style={{ borderColor: 'rgba(229,9,20,0.2)', borderTopColor: '#E50914' }}
+        />
+        <span className="text-sm text-white/30">Loading…</span>
+    </div>
+);

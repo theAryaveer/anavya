@@ -146,77 +146,71 @@ export const AuthCard = () => {
             </AnimatePresence>
 
             {/* Left Side - Animated Background */}
-            <div className="hidden lg:flex relative bg-gradient-to-br from-indigo-950 via-slate-900 to-midnight flex-col justify-center items-center p-12 overflow-hidden">
-                {/* Animated Glowing Orbs - reduced opacity for performance */}
+            <div className="hidden lg:flex relative flex-col justify-center items-center p-12 overflow-hidden"
+                 style={{ background: 'linear-gradient(135deg,#0A0A0A 0%,#141414 100%)' }}>
+                {/* Animated red orbs */}
                 <motion.div
-                    animate={{
-                        scale: [1, 1.15, 1],
-                        opacity: [0.2, 0.4, 0.2],
-                    }}
-                    transition={{
-                        duration: 8,
-                        repeat: Infinity,
-                        ease: "easeInOut"
-                    }}
-                    className="absolute top-1/4 left-1/4 w-96 h-96 bg-indigo-500/25 rounded-full blur-[128px]"
+                    animate={{ scale: [1, 1.2, 1], opacity: [0.15, 0.35, 0.15] }}
+                    transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+                    className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full blur-[128px]"
+                    style={{ background: 'rgba(229,9,20,0.3)' }}
                 />
                 <motion.div
-                    animate={{
-                        scale: [1, 1.2, 1],
-                        opacity: [0.15, 0.3, 0.15],
-                    }}
-                    transition={{
-                        duration: 10,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                        delay: 1
-                    }}
-                    className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-emerald-500/15 rounded-full blur-[128px]"
+                    animate={{ scale: [1, 1.15, 1], opacity: [0.08, 0.2, 0.08] }}
+                    transition={{ duration: 11, repeat: Infinity, ease: 'easeInOut', delay: 1.5 }}
+                    className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full blur-[128px]"
+                    style={{ background: 'rgba(232,184,75,0.25)' }}
                 />
 
                 {/* Content */}
                 <div className="relative z-10 max-w-lg">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.2 }}
-                    >
-                        <Sparkles className="w-12 h-12 text-indigo-400 mb-6" />
-                        <h1 className="text-6xl font-bold text-slate-50 mb-6 leading-tight">
+                    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
+                        <div className="flex items-center gap-3 mb-8">
+                            <div className="p-2.5 rounded-xl" style={{ background: 'linear-gradient(135deg,#E50914,#c1070f)', boxShadow: '0 0 24px rgba(229,9,20,0.5)' }}>
+                                <Sparkles className="w-6 h-6 text-white" />
+                            </div>
+                            <span className="text-2xl font-black tracking-tight" style={{ color: '#E50914' }}>ANAVYA</span>
+                        </div>
+                        <h1 className="text-6xl font-black text-white mb-6 leading-tight" style={{ letterSpacing: '-2px' }}>
                             Discover.<br />
-                            Explore.<br />
+                            <span style={{ color: '#E50914' }}>Explore.</span><br />
                             Read.
                         </h1>
-                        <p className="text-xl text-slate-400">
-                            Your AI-powered book recommendation platform. Find your next favorite read with personalized suggestions.
+                        <div className="h-1 w-16 rounded-full mb-6" style={{ background: 'linear-gradient(90deg,#E50914,transparent)' }} />
+                        <p className="text-lg" style={{ color: 'rgba(255,255,255,0.4)' }}>
+                            Your AI-powered book platform. Find your next favourite read with personalised suggestions.
                         </p>
                     </motion.div>
                 </div>
             </div>
 
             {/* Right Side - Form */}
-            <div className="bg-midnight flex items-center justify-center p-6 lg:p-12">
+            <div className="flex items-center justify-center p-6 lg:p-12" style={{ background: '#0A0A0A' }}>
                 <div className="w-full max-w-md">
                     {/* Header */}
                     <div className="mb-8">
                         {step > 1 && (
                             <button
                                 onClick={() => paginate(step - 1)}
-                                className="mb-4 p-2 rounded-full hover:bg-slate-800/50 text-slate-500 hover:text-slate-50 transition-all duration-200 inline-flex items-center gap-2"
+                                className="mb-4 p-2 rounded-xl inline-flex items-center gap-2 transition-all duration-200"
+                                style={{ color: 'rgba(255,255,255,0.4)' }}
+                                onMouseEnter={e => (e.currentTarget.style.color = '#fff')}
+                                onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.4)')}
                             >
-                                <ArrowLeft size={20} />
-                                <span className="text-sm">Back</span>
+                                <ArrowLeft size={18} />
+                                <span className="text-sm font-medium">Back</span>
                             </button>
                         )}
                         <motion.h2
                             key={step}
                             initial={{ opacity: 0, y: -10 }}
                             animate={{ opacity: 1, y: 0 }}
-                            className="text-5xl font-bold text-slate-50 mb-2"
+                            className="text-5xl font-black text-white mb-2"
+                            style={{ letterSpacing: '-1.5px' }}
                         >
                             {step === 1 ? 'Welcome' : step === 2 ? 'Verify OTP' : step === 3 ? 'Secure Account' : 'Your Profile'}
                         </motion.h2>
-                        <p className="text-slate-500">
+                        <p style={{ color: 'rgba(255,255,255,0.35)' }}>
                             {step === 1 ? 'Sign in to discover amazing books' : step === 2 ? 'Enter the code we sent' : step === 3 ? 'Create a strong password' : 'Tell us about yourself'}
                         </p>
                     </div>
@@ -239,7 +233,7 @@ export const AuthCard = () => {
                                         <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-indigo-400" />
                                         <input
                                             type="email"
-                                            className="w-full bg-midnight-100/80 border border-slate-700/50 rounded-2xl pl-12 pr-4 py-4 text-slate-50 placeholder-slate-500 focus:outline-none focus:border-indigo-500/60 focus:bg-midnight-100 focus:ring-1 focus:ring-indigo-500/30 transition-all duration-200 text-lg"
+                                            className="w-full rounded-2xl border pl-12 pr-4 py-4 text-slate-50 placeholder-slate-500 focus:outline-none transition-all duration-200 nx-input text-lg"
                                             placeholder="Email Address"
                                             value={email}
                                             onChange={(e) => setEmail(e.target.value)}
@@ -250,7 +244,7 @@ export const AuthCard = () => {
                                         onClick={handleSendOTP}
                                         disabled={!email || loading}
                                         whileTap={{ scale: 0.98 }}
-                                        className="w-full bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 text-white font-semibold py-4 rounded-2xl shadow-lg shadow-indigo-500/25 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2 uppercase tracking-wide text-sm hover:shadow-indigo-500/40"
+                                        className="w-full text-white font-bold py-4 rounded-2xl disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2 uppercase tracking-widest text-sm nx-btn-primary"
                                     >
                                         {loading ? (
                                             <motion.div
@@ -302,7 +296,7 @@ export const AuthCard = () => {
                                                 key={i}
                                                 type="text"
                                                 maxLength={1}
-                                                className="w-14 h-16 text-center text-2xl font-bold bg-midnight-100/80 border border-slate-700/50 rounded-2xl text-slate-50 focus:outline-none focus:border-indigo-500/60 focus:bg-midnight-100 focus:ring-1 focus:ring-indigo-500/30 transition-all duration-200"
+                                                className="w-14 h-16 text-center text-2xl font-bold rounded-2xl border text-slate-50 focus:outline-none transition-all duration-200 nx-input"
                                                 value={digit}
                                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                                     const newOtp = [...otp];
@@ -343,7 +337,7 @@ export const AuthCard = () => {
                                         onClick={handleVerifyOTP}
                                         whileTap={{ scale: 0.98 }}
                                         disabled={loading}
-                                        className="w-full bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 text-white font-semibold py-4 rounded-2xl shadow-lg shadow-indigo-500/25 transition-all duration-200 flex items-center justify-center gap-2 uppercase tracking-wide text-sm hover:shadow-indigo-500/40"
+                                        className="w-full text-white font-bold py-4 rounded-2xl transition-all duration-200 flex items-center justify-center gap-2 uppercase tracking-widest text-sm nx-btn-primary"
                                     >
                                         {loading ? (
                                             <motion.div
@@ -372,7 +366,7 @@ export const AuthCard = () => {
                                     <div className="relative">
                                         <input
                                             type={showPassword ? "text" : "password"}
-                                            className="w-full bg-midnight-100/80 border border-slate-700/50 rounded-2xl px-4 py-4 pr-12 text-slate-50 placeholder-slate-500 focus:outline-none focus:border-indigo-500/60 focus:bg-midnight-100 focus:ring-1 focus:ring-indigo-500/30 transition-all duration-200 text-lg"
+                                            className="w-full rounded-2xl border px-4 py-4 pr-12 text-slate-50 placeholder-slate-500 focus:outline-none transition-all duration-200 nx-input text-lg"
                                             placeholder="Create Password"
                                             value={password}
                                             onChange={(e) => setPassword(e.target.value)}
@@ -388,7 +382,7 @@ export const AuthCard = () => {
                                     <div className="relative">
                                         <input
                                             type={showPassword ? "text" : "password"}
-                                            className="w-full bg-midnight-100/80 border border-slate-700/50 rounded-2xl px-4 py-4 text-slate-50 placeholder-slate-500 focus:outline-none focus:border-indigo-500/60 focus:bg-midnight-100 focus:ring-1 focus:ring-indigo-500/30 transition-all duration-200 text-lg"
+                                            className="w-full rounded-2xl border px-4 py-4 text-slate-50 placeholder-slate-500 focus:outline-none transition-all duration-200 nx-input text-lg"
                                             placeholder="Confirm Password"
                                             value={confirmPassword}
                                             onChange={(e) => setConfirmPassword(e.target.value)}
@@ -398,7 +392,7 @@ export const AuthCard = () => {
                                     <motion.button
                                         onClick={handleSetPassword}
                                         whileTap={{ scale: 0.98 }}
-                                        className="w-full bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 text-white font-semibold py-4 rounded-2xl shadow-lg shadow-indigo-500/25 transition-all duration-200 flex items-center justify-center gap-2 uppercase tracking-wide text-sm hover:shadow-indigo-500/40"
+                                        className="w-full text-white font-bold py-4 rounded-2xl transition-all duration-200 flex items-center justify-center gap-2 uppercase tracking-widest text-sm nx-btn-primary"
                                     >
                                         Continue
                                         <ArrowRight size={18} />
@@ -425,7 +419,7 @@ export const AuthCard = () => {
 
                                     <input
                                         type="text"
-                                        className="w-full bg-midnight-100/80 border border-slate-700/50 rounded-2xl px-4 py-4 text-slate-50 placeholder-slate-500 focus:outline-none focus:border-indigo-500/60 focus:bg-midnight-100 focus:ring-1 focus:ring-indigo-500/30 transition-all duration-200 text-lg"
+                                        className="w-full bg-midnight-100/80 border border-slate-700/50 rounded-2xl px-4 py-4 text-slate-50 placeholder-slate-500 focus:outline-none transition-all duration-200 nx-input text-lg"
                                         placeholder="Full Name"
                                         value={profile.name}
                                         onChange={(e) => setProfile({ ...profile, name: e.target.value })}
@@ -433,7 +427,7 @@ export const AuthCard = () => {
 
                                     <input
                                         type="text"
-                                        className="w-full bg-midnight-100/80 border border-slate-700/50 rounded-2xl px-4 py-4 text-slate-50 placeholder-slate-500 focus:outline-none focus:border-indigo-500/60 focus:bg-midnight-100 focus:ring-1 focus:ring-indigo-500/30 transition-all duration-200 text-lg"
+                                        className="w-full bg-midnight-100/80 border border-slate-700/50 rounded-2xl px-4 py-4 text-slate-50 placeholder-slate-500 focus:outline-none transition-all duration-200 nx-input text-lg"
                                         placeholder="Graduation Year"
                                         value={profile.graduationYear}
                                         onChange={(e) => setProfile({ ...profile, graduationYear: e.target.value })}
@@ -473,7 +467,7 @@ export const AuthCard = () => {
                                     <motion.button
                                         onClick={handleComplete}
                                         whileTap={{ scale: 0.98 }}
-                                        className="w-full bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 text-white font-semibold py-4 rounded-2xl shadow-lg shadow-indigo-500/25 transition-all duration-200 flex items-center justify-center gap-2 uppercase tracking-wide text-sm hover:shadow-indigo-500/40"
+                                        className="w-full text-white font-bold py-4 rounded-2xl transition-all duration-200 flex items-center justify-center gap-2 uppercase tracking-widest text-sm nx-btn-primary"
                                     >
                                         Complete Profile
                                         <ArrowRight size={18} />

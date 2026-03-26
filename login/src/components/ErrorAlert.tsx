@@ -8,7 +8,6 @@ interface ErrorAlertProps {
 }
 
 export const ErrorAlert = ({ message, onRetry, onDismiss }: ErrorAlertProps) => {
-    // Detect if this is a backend connection error
     const isConnectionError = message.includes('Failed to connect') ||
         message.includes('backend') ||
         message.includes('ECONNREFUSED') ||
@@ -19,24 +18,32 @@ export const ErrorAlert = ({ message, onRetry, onDismiss }: ErrorAlertProps) => 
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="relative bg-red-500/10 backdrop-blur-xl border border-red-500/30 rounded-xl p-6"
+            className="relative backdrop-blur-xl rounded-xl p-6"
+            style={{
+                background: 'rgba(229,9,20,0.1)',
+                border: '1px solid rgba(229,9,20,0.3)',
+                borderLeft: '4px solid #E50914'
+            }}
         >
             <div className="flex items-start gap-4">
-                <AlertCircle className="w-6 h-6 text-red-400 flex-shrink-0 mt-0.5" />
+                <AlertCircle className="w-6 h-6 flex-shrink-0 mt-0.5" style={{ color: '#E50914' }} />
                 <div className="flex-1">
-                    <h3 className="text-red-300 font-semibold mb-2">
-                        {isConnectionError ? 'Backend Connection Error' : 'Error'}
+                    <h3 className="font-bold text-white mb-2">
+                        {isConnectionError ? 'Backend Connection Error' : 'App Error'}
                     </h3>
-                    <p className="text-red-200/80 text-sm mb-4">{message}</p>
+                    <p className="text-sm mb-4" style={{ color: 'rgba(255,255,255,0.7)' }}>{message}</p>
                     {isConnectionError && (
-                        <p className="text-red-200/60 text-xs mb-4">
-                            💡 Make sure your FastAPI backend is running: <code className="bg-red-900/30 px-2 py-1 rounded">uvicorn main:app --reload --port 8000</code>
+                        <p className="text-xs mb-4" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                            💡 Make sure your FastAPI backend is running: <code className="px-2 py-1 rounded" style={{ background: 'rgba(229,9,20,0.2)', color: '#fff' }}>uvicorn main:app --reload --port 8000</code>
                         </p>
                     )}
                     {onRetry && (
                         <button
                             onClick={onRetry}
-                            className="text-xs font-medium text-red-300 hover:text-red-100 underline transition-colors duration-200"
+                            className="text-xs font-bold uppercase tracking-widest transition-colors duration-200"
+                            style={{ color: '#E50914' }}
+                            onMouseEnter={e => (e.currentTarget.style.color = '#fff')}
+                            onMouseLeave={e => (e.currentTarget.style.color = '#E50914')}
                         >
                             Try Again
                         </button>
@@ -45,9 +52,12 @@ export const ErrorAlert = ({ message, onRetry, onDismiss }: ErrorAlertProps) => 
                 {onDismiss && (
                     <button
                         onClick={onDismiss}
-                        className="text-red-400 hover:text-red-200 transition-colors duration-200"
+                        className="transition-colors duration-200"
+                        style={{ color: 'rgba(255,255,255,0.4)' }}
+                        onMouseEnter={e => (e.currentTarget.style.color = '#fff')}
+                        onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.4)')}
                     >
-                        <X className="w-4 h-4" />
+                        <X className="w-5 h-5" />
                     </button>
                 )}
             </div>

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search as SearchIcon, X } from 'lucide-react';
+import { Search as SearchIcon, X, Sparkles } from 'lucide-react';
 import { searchBooks } from '../lib/api';
 import type { Book } from '../types';
 import BookCard from './BookCard';
@@ -16,23 +16,12 @@ export const SearchSection = () => {
 
     const handleSearch = async (e?: React.FormEvent) => {
         e?.preventDefault();
-
-        if (!query.trim()) {
-            setError('Please enter a search query');
-            return;
-        }
-
-        setLoading(true);
-        setError(null);
-        setHasSearched(true);
-
+        if (!query.trim()) { setError('Please enter a search query'); return; }
+        setLoading(true); setError(null); setHasSearched(true);
         try {
             const books = await searchBooks(query);
             setResults(books);
-
-            if (books.length === 0) {
-                setError('No books found. Try a different search term.');
-            }
+            if (books.length === 0) setError('No books found. Try a different search term.');
         } catch (err: any) {
             setError(err.message || 'Failed to search books');
             setResults([]);
@@ -41,26 +30,30 @@ export const SearchSection = () => {
         }
     };
 
-    const clearSearch = () => {
-        setQuery('');
-        setResults([]);
-        setError(null);
-        setHasSearched(false);
-    };
+    const clearSearch = () => { setQuery(''); setResults([]); setError(null); setHasSearched(false); };
 
     return (
-        <section className="w-full max-w-7xl mx-auto px-4 py-12">
-            {/* Search Header */}
+        <section className="w-full max-w-7xl mx-auto px-4 py-16">
+
+            {/* Header */}
             <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="text-center mb-12"
+                className="text-center mb-14"
             >
-                <h2 className="text-4xl md:text-5xl font-bold text-slate-50 mb-4">
-                    Discover Your Next Read
+                <div className="inline-flex items-center gap-2 mb-5 px-4 py-1.5 rounded-full border border-white/10"
+                     style={{ background: 'rgba(229,9,20,0.08)' }}>
+                    <Sparkles className="w-4 h-4" style={{ color: '#E50914' }} />
+                    <span className="text-sm font-semibold tracking-widest uppercase" style={{ color: '#E50914' }}>
+                        AI-Powered Search
+                    </span>
+                </div>
+                <h2 className="text-5xl md:text-6xl font-black text-white mb-4 leading-tight" style={{ letterSpacing: '-1px' }}>
+                    Discover Your<br />
+                    <span style={{ color: '#E50914' }}>Next Read</span>
                 </h2>
-                <p className="text-xl text-slate-400">
-                    Search through thousands of books to find your perfect match
+                <p className="text-lg text-white/40 max-w-xl mx-auto">
+                    Search through thousands of books instantly with semantic AI search
                 </p>
             </motion.div>
 
@@ -70,47 +63,44 @@ export const SearchSection = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
-                className="max-w-3xl mx-auto mb-12"
+                className="max-w-3xl mx-auto mb-14"
             >
-                <div className="relative">
-                    <SearchIcon className="absolute left-6 top-1/2 -translate-y-1/2 w-6 h-6 text-slate-500" />
+                <div className="relative flex items-center rounded-2xl overflow-hidden"
+                     style={{
+                         background: 'rgba(31,31,31,0.9)',
+                         border: '1px solid rgba(255,255,255,0.1)',
+                         boxShadow: '0 8px 40px rgba(0,0,0,0.5)',
+                     }}>
+                    <SearchIcon className="absolute left-6 w-5 h-5 text-white/30 pointer-events-none" />
                     <input
                         type="text"
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
-                        placeholder="Search for books, authors, or genres..."
-                        className="w-full bg-midnight-100/80 backdrop-blur-xl border border-slate-700/50 rounded-2xl pl-16 pr-32 py-5 text-slate-50 placeholder-slate-500 text-lg focus:outline-none focus:border-indigo-500/60 focus:bg-midnight-100 focus:ring-1 focus:ring-indigo-500/30 transition-all duration-200"
+                        placeholder="Search books, authors, genres…"
+                        className="flex-1 bg-transparent pl-14 pr-4 py-5 text-white placeholder-white/25 text-base focus:outline-none"
                     />
-
                     {query && (
-                        <button
-                            type="button"
-                            onClick={clearSearch}
-                            className="absolute right-28 top-1/2 -translate-y-1/2 p-2 text-slate-500 hover:text-slate-50 transition-colors duration-200"
-                        >
-                            <X className="w-5 h-5" />
+                        <button type="button" onClick={clearSearch}
+                            className="p-2 mr-2 text-white/30 hover:text-white transition-colors">
+                            <X className="w-4 h-4" />
                         </button>
                     )}
-
                     <button
                         type="submit"
                         disabled={loading || !query.trim()}
-                        className="absolute right-2 top-1/2 -translate-y-1/2 px-8 py-3 bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold uppercase tracking-wide text-sm rounded-xl transition-all duration-200 shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40"
+                        className="m-2 px-8 py-3.5 rounded-xl text-white font-bold uppercase tracking-widest text-sm disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-200"
+                        style={{ background: 'linear-gradient(135deg,#E50914,#c1070f)', boxShadow: '0 4px 16px rgba(229,9,20,0.4)' }}
                     >
                         Search
                     </button>
                 </div>
             </motion.form>
 
-            {/* Error Alert */}
+            {/* Error */}
             <AnimatePresence>
                 {error && (
                     <div className="max-w-3xl mx-auto mb-8">
-                        <ErrorAlert
-                            message={error}
-                            onRetry={handleSearch}
-                            onDismiss={() => setError(null)}
-                        />
+                        <ErrorAlert message={error} onRetry={handleSearch} onDismiss={() => setError(null)} />
                     </div>
                 )}
             </AnimatePresence>
@@ -119,13 +109,10 @@ export const SearchSection = () => {
             {loading ? (
                 <LoadingShimmer count={8} />
             ) : results.length > 0 ? (
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.2 }}
-                >
-                    <div className="mb-6 text-slate-500 text-sm">
-                        Found <span className="text-slate-50 font-semibold">{results.length}</span> results for "{query}"
+                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.1 }}>
+                    <div className="mb-6 text-sm text-white/30">
+                        Found <span className="text-white font-bold">{results.length}</span> results for
+                        {' '}<span style={{ color: '#E50914' }}>"{query}"</span>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                         {results.map((book, index) => (
@@ -134,13 +121,9 @@ export const SearchSection = () => {
                     </div>
                 </motion.div>
             ) : hasSearched && !error ? (
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className="text-center py-20"
-                >
-                    <SearchIcon className="w-16 h-16 text-slate-700 mx-auto mb-4" />
-                    <p className="text-slate-500 text-lg">No results found</p>
+                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-24">
+                    <SearchIcon className="w-14 h-14 mx-auto mb-4 opacity-10" />
+                    <p className="text-white/30 text-lg">No results found</p>
                 </motion.div>
             ) : null}
         </section>

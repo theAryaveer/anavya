@@ -14,7 +14,14 @@ export const MainPage = ({ userEmail, userId, userName }: MainPageProps) => {
     const [darkMode, setDarkMode] = useState(true);
 
     return (
-        <div className="min-h-screen w-full bg-midnight">
+        <div className="min-h-screen w-full relative" style={{ background: '#0A0A0A' }}>
+            {/* Global background glow */}
+            <div className="absolute inset-0 pointer-events-none"
+                 style={{
+                     background: 'radial-gradient(circle at 50% 0%, rgba(229,9,20,0.08) 0%, transparent 60%)'
+                 }}
+            />
+
             {/* Navbar */}
             <Navbar
                 userEmail={userEmail}
@@ -23,13 +30,9 @@ export const MainPage = ({ userEmail, userId, userName }: MainPageProps) => {
             />
 
             {/* Main Content */}
-            <main className="relative overflow-hidden">
-                {/* Animated Background Orbs - Midnight Indigo theme, minimal for performance */}
-                <div className="absolute top-0 left-1/4 w-96 h-96 bg-indigo-500/8 rounded-full blur-[128px] animate-pulse-glow" />
-                <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-emerald-500/6 rounded-full blur-[128px] animate-pulse-glow" style={{ animationDelay: '2s' }} />
-
+            <main className="relative z-10 overflow-hidden">
                 {/* Hero Section with Welcome Message */}
-                <section className="relative z-10 max-w-7xl mx-auto px-4 pt-20 pb-12 text-center">
+                <section className="relative z-10 max-w-7xl mx-auto px-4 pt-24 pb-16 text-center">
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -41,21 +44,21 @@ export const MainPage = ({ userEmail, userId, userName }: MainPageProps) => {
                                 initial={{ opacity: 0, y: -10 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.2 }}
-                                className="text-lg text-indigo-400 mb-4"
+                                className="text-lg mb-6 font-medium tracking-wide"
+                                style={{ color: '#E50914' }}
                             >
-                                Welcome back, <span className="font-semibold">{userName}</span> 👋
+                                Welcome back, <span className="font-bold text-white">{userName}</span>
                             </motion.p>
                         )}
 
-                        <h1 className="text-5xl md:text-7xl font-bold text-slate-50 mb-6 leading-tight">
-                            Your Personal
-                            <span className="block bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-indigo-300 to-cyan-400">
+                        <h1 className="text-6xl md:text-8xl font-black text-white mb-6 leading-tight tracking-tighter">
+                            Your Personal <br />
+                            <span style={{ color: '#E50914' }}>
                                 Book Discovery
                             </span>
-                            Platform
                         </h1>
-                        <p className="text-xl md:text-2xl text-slate-400 max-w-3xl mx-auto">
-                            Powered by AI-driven recommendations to find your next favorite read
+                        <p className="text-xl md:text-2xl max-w-3xl mx-auto font-medium" style={{ color: 'rgba(255,255,255,0.45)' }}>
+                            Powered by AI-driven recommendations to find your next favourite read
                         </p>
                     </motion.div>
                 </section>
@@ -66,8 +69,8 @@ export const MainPage = ({ userEmail, userId, userName }: MainPageProps) => {
                 </div>
 
                 {/* Divider */}
-                <div className="relative z-10 max-w-7xl mx-auto px-4 my-12">
-                    <div className="h-px bg-gradient-to-r from-transparent via-slate-700/40 to-transparent" />
+                <div className="relative z-10 max-w-7xl mx-auto px-4 my-16 flex justify-center">
+                    <div className="h-[2px] w-32 rounded-full" style={{ background: 'linear-gradient(90deg, transparent, #E50914, transparent)' }} />
                 </div>
 
                 {/* Recommendations Section */}
@@ -76,9 +79,9 @@ export const MainPage = ({ userEmail, userId, userName }: MainPageProps) => {
                 </div>
 
                 {/* Footer */}
-                <footer className="relative z-10 max-w-7xl mx-auto px-4 py-12 text-center text-slate-600 text-sm">
+                <footer className="relative z-10 max-w-7xl mx-auto px-4 py-16 text-center text-sm" style={{ color: 'rgba(255,255,255,0.2)' }}>
                     <p>
-                        © 2026 Anvaya. Powered by FastAPI & React.
+                        © 2026 Anavya. Powered by FastAPI & React.
                     </p>
                 </footer>
             </main>

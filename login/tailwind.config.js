@@ -7,44 +7,45 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Midnight Indigo Design System
-        midnight: {
-          DEFAULT: '#0F172A',
-          50: '#1E293B',
-          100: '#111827',
-          200: '#0F172A',
-        },
-        indigo: {
-          DEFAULT: '#6366F1',
-          50: '#EEF2FF',
-          100: '#E0E7FF',
-          200: '#C7D2FE',
-          300: '#A5B4FC',
-          400: '#818CF8',
-          500: '#6366F1',
-          600: '#4F46E5',
-          700: '#4338CA',
-          800: '#3730A3',
-          900: '#312E81',
-        },
-        emerald: {
-          DEFAULT: '#10B981',
-          400: '#34D399',
-          500: '#10B981',
-          600: '#059669',
+        // Netflix-Black Design System
+        netflix: {
+          black:   '#0A0A0A',   // deepest background
+          dark:    '#141414',   // card / surface
+          grey:    '#1F1F1F',   // input / elevated surface
+          mid:     '#2A2A2A',   // border / divider
+          muted:   '#808080',   // secondary text
+          red:     '#E50914',   // Netflix red — primary CTA
+          'red-hover': '#F40612',
+          gold:    '#E8B84B',   // rating / highlight
+          'gold-light': '#F5CF72',
         },
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+        sans:  ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
         serif: ['Georgia', 'Times New Roman', 'serif'],
       },
+      boxShadow: {
+        'netflix-red':  '0 0 24px rgba(229, 9, 20, 0.35)',
+        'netflix-gold': '0 0 16px rgba(232, 184, 75, 0.3)',
+        'card':         '0 8px 32px rgba(0,0,0,0.7)',
+      },
       animation: {
-        'glow-pulse': 'glow-pulse 2s ease-in-out infinite',
+        'glow-red':   'glow-red 2.5s ease-in-out infinite',
+        'fade-up':    'fade-up 0.5s ease-out forwards',
+        'shimmer':    'shimmer 2s ease-in-out infinite',
       },
       keyframes: {
-        'glow-pulse': {
-          '0%, 100%': { opacity: '0.6' },
-          '50%': { opacity: '1' },
+        'glow-red': {
+          '0%, 100%': { 'box-shadow': '0 0 12px rgba(229, 9, 20, 0.2)' },
+          '50%':      { 'box-shadow': '0 0 28px rgba(229, 9, 20, 0.5)' },
+        },
+        'fade-up': {
+          from: { opacity: '0', transform: 'translateY(20px)' },
+          to:   { opacity: '1', transform: 'translateY(0)' },
+        },
+        'shimmer': {
+          '0%':   { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(100%)' },
         },
       },
     },

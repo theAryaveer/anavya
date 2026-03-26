@@ -1,102 +1,83 @@
-import { useRef, useState, useEffect, KeyboardEvent, ClipboardEvent } from 'react';
+import React, { useRef, useEffect } from 'react';
 
 interface OtpInputProps {
-    length?: number;
     value: string;
     onChange: (value: string) => void;
-    onComplete?: (value: string) => void;
+    length?: number;
 }
 
-export const OtpInput = ({ length = 6, value, onChange, onComplete }: OtpInputProps) => {
+export const OtpInput = ({ value, onChange, length = 6 }: OtpInputProps) => {
     const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
-    const [otp, setOtp] = useState<string[]>(Array(length).fill(''));
 
-    // Sync internal state with prop value
     useEffect(() => {
-        const otpArray = value.split('').slice(0, length);
-        while (otpArray.length < length) {
-            otpArray.push('');
-        }
-        setOtp(otpArray);
-    }, [value, length]);
+        // Initialize refs array
+        inputRefs.current = inputRefs.current.slice(0, length);
+    }, [length]);
 
-    const handleChange = (index: number, digit: string) => {
-        // Only allow digits
-        if (digit && !/^\d$/.test(digit)) return;
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+        const newValue = e.target.value;
+        if (/[^0-9]/.test(newValue)) return; // Only allow numbers
 
-        const newOtp = [...otp];
-        newOtp[index] = digit;
-        setOtp(newOtp);
+        const otpArray = value.split('');
+        otpArray[index] = newValue.slice(-1); // Take only the last character entered
 
-        const otpString = newOtp.join('');
-        onChange(otpString);
+        const newOtp = otpArray.join('');
+        onChange(newOtp);
 
-        // Auto-focus next input
-        if (digit && index < length - 1) {
-            inputRefs.current[index + 1]?.focus();
-        }
-
-        // Trigger onComplete if all digits are filled
-        if (otpString.length === length && onComplete) {
-            onComplete(otpString);
-        }
-    };
-
-    const handleKeyDown = (index: number, e: KeyboardEvent<HTMLInputElement>) => {
-        // Handle backspace
-        if (e.key === 'Backspace' && !otp[index] && index > 0) {
-            inputRefs.current[index - 1]?.focus();
-        }
-
-        // Handle left/right arrow keys
-        if (e.key === 'ArrowLeft' && index > 0) {
-            inputRefs.current[index - 1]?.focus();
-        }
-        if (e.key === 'ArrowRight' && index < length - 1) {
+        // Auto focus next input
+        if (newValue && index < length - 1) {
             inputRefs.current[index + 1]?.focus();
         }
     };
 
-    const handlePaste = (e: ClipboardEvent<HTMLInputElement>) => {
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, index: number) => {
+        if (e.key === 'Backspace' && !value[index] && index > 0) {
+            // Move to previous input on backspace if current is empty
+            const otpArray = value.split('');
+            otpArray[index - 1] = '';
+            onChange(otpArray.join(''));
+            inputRefs.current[index - 1]?.focus();
+        }
+    };
+
+    const handlePaste = (e: React.ClipboardEvent) => {
         e.preventDefault();
-        const pastedData = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, length);
-        const newOtp = [...otp];
+        const pastedData = e.clipboardData.getData('text/plain').replace(/[^0-9]/g, '').slice(0, length);
 
-        pastedData.split('').forEach((digit, i) => {
-            if (i < length) {
-                newOtp[i] = digit;
-            }
-        });
-
-        setOtp(newOtp);
-        const otpString = newOtp.join('');
-        onChange(otpString);
-
-        // Focus the next empty input or the last one
-        const nextEmptyIndex = newOtp.findIndex((digit) => !digit);
-        if (nextEmptyIndex !== -1) {
-            inputRefs.current[nextEmptyIndex]?.focus();
-        } else {
-            inputRefs.current[length - 1]?.focus();
-            if (onComplete) onComplete(otpString);
+        if (pastedData) {
+            onChange(pastedData);
+            // Focus the last filled input or the first empty one
+            const focusIndex = Math.min(pastedData.length, length - 1);
+            inputRefs.current[focusIndex]?.focus();
         }
     };
 
     return (
-        <div className="flex gap-2 justify-center">
-            {otp.map((digit, index) => (
+        <div className="flex justify-center gap-2 sm:gap-4 my-8" onPaste={handlePaste}>
+            {Array.from({ length }).map((_, index) => (
                 <input
                     key={index}
                     ref={(el) => (inputRefs.current[index] = el)}
                     type="text"
                     inputMode="numeric"
+                    autoComplete="one-time-code"
                     maxLength={1}
-                    value={digit}
-                    onChange={(e) => handleChange(index, e.target.value)}
-                    onKeyDown={(e) => handleKeyDown(index, e)}
-                    onPaste={handlePaste}
-                    className="w-12 h-14 text-center text-2xl font-bold bg-midnight-100/80 border border-slate-700/50 rounded-xl text-slate-50 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/30 transition-all duration-200"
-                    autoFocus={index === 0}
+                    value={value[index] || ''}
+                    onChange={(e) => handleChange(e, index)}
+                    onKeyDown={(e) => handleKeyDown(e, index)}
+                    className="w-12 h-14 sm:w-14 sm:h-16 text-center text-2xl font-bold rounded-2xl border text-white focus:outline-none transition-all duration-200"
+                    style={{
+                        background: 'rgba(31,31,31,0.9)',
+                        borderColor: 'rgba(255,255,255,0.1)'
+                    }}
+                    onFocus={(e) => {
+                        e.target.style.borderColor = 'rgba(229,9,20,0.6)';
+                        e.target.style.boxShadow = '0 0 0 3px rgba(229,9,20,0.12)';
+                    }}
+                    onBlur={(e) => {
+                        e.target.style.borderColor = 'rgba(255,255,255,0.1)';
+                        e.target.style.boxShadow = 'none';
+                    }}
                 />
             ))}
         </div>
